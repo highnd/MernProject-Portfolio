@@ -41,7 +41,11 @@ exports.createUser = async (req, res) => {
   });
 
   res.status(201).json({
-    message: "please verify your email. OTP been sent to your email account!!",
+    user: {
+      id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+    },
   });
 };
 
@@ -74,7 +78,19 @@ exports.verfiyEmail = async (req, res) => {
       <h2>welcome message from mahdi fallah</h2>
     `,
   });
-  res.json({ message: "your email is verified" });
+  const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "12h",
+  });
+  res.json({
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      token: jwtToken,
+      isVarified: user.isVarified,
+    },
+    message: "your email is verified",
+  });
 };
 
 exports.resendEmailVarToken = async (req, res) => {
@@ -138,7 +154,7 @@ exports.forgetPassword = async (req, res) => {
   });
   await newPasswordResetToken.save();
 
-  const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&id=${user._id}`;
+  const resetPasswordUrl = `http://localhost:3000/auth/confirm-password?token=${token}&id=${user._id}`;
 
   var transport = generateEmailTransporter();
 
@@ -196,6 +212,10 @@ exports.signIn = async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) return sendError(res, "Email or Password  not match");
 
+  //not allow for sign in if email not verrified
+  // if (!user.isVarified)
+  //   return sendError(res, "you havnt activate your accout yet");
+
   const matched = await user.comparePassword(password);
   if (!matched) return sendError(res, "Email or Password  not match");
 
@@ -205,5 +225,13 @@ exports.signIn = async (req, res) => {
     expiresIn: "12h",
   });
 
-  res.json({ user: { id: _id, name, email, token: jwtToken } });
+  res.json({
+    user: {
+      id: _id,
+      name: name,
+      email: user.email,
+      token: jwtToken,
+      isVarified: user.isVarified,
+    },
+  });
 };
