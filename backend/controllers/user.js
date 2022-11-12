@@ -45,6 +45,7 @@ exports.createUser = async (req, res) => {
       id: newUser._id,
       name: newUser.name,
       email: newUser.email,
+      role: newUser.role,
     },
   });
 };
@@ -88,6 +89,7 @@ exports.verfiyEmail = async (req, res) => {
       email: user.email,
       token: jwtToken,
       isVarified: user.isVarified,
+      role: user.role,
     },
     message: "your email is verified",
   });
@@ -219,7 +221,7 @@ exports.signIn = async (req, res) => {
   const matched = await user.comparePassword(password);
   if (!matched) return sendError(res, "Email or Password  not match");
 
-  const { _id, name } = user;
+  const { _id, name, role } = user;
 
   const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
     expiresIn: "12h",
@@ -228,7 +230,8 @@ exports.signIn = async (req, res) => {
   res.json({
     user: {
       id: _id,
-      name: name,
+      name,
+      role,
       email: user.email,
       token: jwtToken,
       isVarified: user.isVarified,

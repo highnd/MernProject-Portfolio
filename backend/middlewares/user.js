@@ -25,6 +25,7 @@ exports.isValidPasswordToken = async (req, res, next) => {
 
 exports.isAuth = async (req, res, next) => {
   const token = req.headers?.authorization;
+  if (!token) return sendError(res, "no token found");
   const jwtToken = token.split("Bearer ")[1];
   console.log(token);
   if (!jwtToken) return sendError(res, "invalid token");
@@ -36,5 +37,12 @@ exports.isAuth = async (req, res, next) => {
   if (!user) return sendError(res, "Invalid Token User Not found", 404);
 
   req.user = user;
+  next();
+};
+
+exports.isAdmin = (req, res, next) => {
+  const { user } = req;
+
+  if (user.role !== "admin") return sendError(res, "Access denied!!");
   next();
 };
