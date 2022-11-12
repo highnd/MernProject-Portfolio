@@ -12,6 +12,7 @@ const defaultAuthInfo = {
 };
 
 const AuthProvider = ({ children }) => {
+  const [Nav, setNav] = useState(false);
   const [authInfo, setauthInfo] = useState({ ...defaultAuthInfo });
 
   const { updateNotif } = useNotification();
@@ -68,7 +69,9 @@ const AuthProvider = ({ children }) => {
   }, []);
   //, handleLogout, isAuth
   return (
-    <AuthContext.Provider value={{ authInfo, handleLogin, handleLogOut }}>
+    <AuthContext.Provider
+      value={{ authInfo, handleLogin, handleLogOut, setNav, Nav }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -16,7 +16,7 @@ const NotVarified = () => {
     });
   };
   return (
-    <div>
+    <div className="">
       {isLoggedIn && !isVarified ? (
         <p className="text-center bg-purple-600/70 p-1  ">
           you havnt activate your account yet?

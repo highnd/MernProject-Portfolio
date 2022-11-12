@@ -3,7 +3,7 @@ import NotVarified from "../DesignTools/NotVarified";
 
 const Home = () => {
   return (
-    <div>
+    <div className=" ">
       <NotVarified />
     </div>
   );
