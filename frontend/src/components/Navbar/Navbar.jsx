@@ -16,6 +16,8 @@ const Navbar = () => {
 
   const isAdmin = authInfo.profile?.role === "admin" ? true : false;
 
+  console.log(authInfo);
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (boxRef.current && !boxRef.current.contains(event.target)) {
@@ -103,7 +105,7 @@ const Navbar = () => {
           >
             Articles
           </li>
-          {isLoggedIn && isAdmin ? (
+          {isAdmin ? (
             <Link to={"/dashboard"}>
               <li
                 onClick={() => setNav((prev) => !prev)}
