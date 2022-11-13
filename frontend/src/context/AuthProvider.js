@@ -14,6 +14,7 @@ const defaultAuthInfo = {
 const AuthProvider = ({ children }) => {
   const [Nav, setNav] = useState(false);
   const [authInfo, setauthInfo] = useState({ ...defaultAuthInfo });
+  const [jwt, setjwt] = useState(true);
 
   const { updateNotif } = useNotification();
 
@@ -46,6 +47,9 @@ const AuthProvider = ({ children }) => {
     const { user, err } = await getIsAuth(token);
 
     if (err) {
+      if (err == "jwt expires") {
+        setjwt(false);
+      }
       updateNotif("error", err);
       return setauthInfo({ ...authInfo, isPending: false, error: err });
     }
@@ -65,7 +69,9 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    isAuth();
+    {
+      !jwt && isAuth();
+    }
   }, []);
   //, handleLogout, isAuth
   return (

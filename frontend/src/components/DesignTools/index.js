@@ -16,3 +16,9 @@ export const formStyle = "px-auto sm:pb-0   px-6 w-full mb-28 sm:mb-4";
 
 export const otpInput =
   "w-10 h-10 rounded border-2 m-[4px] text-center text-xl dark:text-white font-semibold dark:focus:border-white focus:border-black outline-none  dark:border-gray-400 border-slate-500 bg-transparent spin-button-none";
+
+export const listItemDesign =
+  "hover:bg-purple-800/80 cursor-pointer p-1 rounded-md duration-500 my-1 mx-4";
+
+export const logInOut =
+  "cursor-pointer lg:text-lg text-black  bg-white cursor-pointer py-2 lg:px-8 px-4 mx-4  hover:bg-pink-400 hover:text-white text-center my-2 ";
