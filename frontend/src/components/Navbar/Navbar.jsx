@@ -20,8 +20,6 @@ const Navbar = () => {
     function handleClickOutside(event) {
       if (boxRef.current && !boxRef.current.contains(event.target)) {
         setNav(false);
-      } else {
-        setNav(true);
       }
     }
 
